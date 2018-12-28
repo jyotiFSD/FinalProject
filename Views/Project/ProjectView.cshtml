@@ -1,0 +1,82 @@
+﻿@*@model IEnumerable<ProjectManageEntity.Project>*@
+@{
+    List<ProjectManageEntity.Project> Model = ViewData["oList"] as List<ProjectManageEntity.Project>;
+    ProjectManageEntity.Project Project = ViewData["project"] as ProjectManageEntity.Project;
+
+}
+
+@{
+    ViewBag.Title = "ProjectView";
+}
+
+
+
+<p>
+    @Html.ActionLink("Add User", "Index", "User") &nbsp  @Html.ActionLink("Add Task", "Create", "Task") &nbsp  @Html.ActionLink("View Task", "Index", "Task")
+</p>
+
+<div class="row">
+    @{Html.RenderPartial("~/Views/Project/AddProject.cshtml", Project);}
+  
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Project Name", "SortByPName", "Project")
+        </th>
+        <th>
+            @Html.ActionLink("Start Date", "SortByStartDate", "Project")
+        </th>
+        <th>
+            @Html.ActionLink("End Date", "SortByEndDate", "Project")
+        </th>
+        <th>
+            @Html.ActionLink("Priority", "SortByPriority", "Project")
+        </th>
+        <th>
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project1)
+            </td>
+            <td>
+                @if (@item.Start_Date == null)
+                {
+
+                }
+                else
+                {@item.Start_Date.Value.ToShortDateString()}
+            </td>
+            <td>
+                @if (@item.End_date == null)
+                {
+
+                }
+                else
+                {@item.End_date.Value.ToShortDateString()}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                Total task:
+                @if (item.Tasks.Count > 0)
+                {   <a href="@Url.Action("Show", "Task", new { id = item.Project_ID })">@item.Tasks.Count</a> }
+                else
+                { @item.Tasks.Count}
+              
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Project_ID }) |
+                @Html.ActionLink("Suspend", "Delete", new { id = item.Project_ID })
+            </td>
+        </tr>
+    }
+
+</table>
